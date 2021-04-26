@@ -1,0 +1,11 @@
+.pusher{
+    margin-right: 210px;
+    margin-left: 10px;
+}
+
+#main{
+    background: inherit !important;
+}
+.ui.attached.segment{
+    border: none !important;
+}

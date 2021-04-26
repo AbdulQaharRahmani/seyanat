@@ -1,0 +1,54 @@
+<div style="background: white;padding: 25px;border-radius: 10px">
+    <form  class="ui form" [formGroup]="searchForm" (submit)="search()" style="margin: 0 ; padding: 0" dir="rtl" >
+        <div class="fields">
+            <div class="six wide field">
+                <label>نوع مالیه </label>
+                <select class="ui fluid search dropdown" formControlName="tax_type" >
+                  <option value="">نوع مالیه</option>
+                  <option *ngFor="let v of tax_types" [value]="v">{{ v }} </option>
+                  </select>
+            </div>
+                  
+            <div class="four wide field">
+                    <label >سال</label>
+                    <input type="number"  maxlength="4" placeholder="سال" formControlName="year">
+            </div>
+                
+            <div class="two wide field">
+                <label >جستجو</label>
+                <button class="ui search icon inverted green button" type="submit" [disabled]="!searchForm.valid">
+                    <i class="search icon"></i>
+                  </button>
+            </div>  
+        </div>
+      </form>
+      <hr>
+      <div *ngIf="isListEmpty "class="ui warning message" dir="rtl">
+        <div class="header">لیست خالی</div>
+        <p>متاسفانه هیچ دیتایی وجود نداشت</p>
+      </div>
+      <div *ngIf="error"class="ui error message" dir="rtl">
+        <div class="header">مشکل تخنیکی</div>
+        <p>لطفاً دوباره امتحان کنید</p>
+      </div>
+    <div [hidden]="!dataSource">
+      <mat-table #table [dataSource]="dataSource" class="mat-elevation-z8" >
+        <ng-container [matColumnDef]="columnName" *ngFor="let columnName of displayedColumns">
+          <mat-header-cell *matHeaderCellDef> {{columnNames[columnName]}} </mat-header-cell>
+          <mat-cell *matCellDef="let element" >{{ (columnName ==='months')?(month_names[+element[columnName]-1])  : (element[columnName])}}</mat-cell>
+        </ng-container>
+      
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
+      <!-- Angular 8 pagination -->
+    <mat-paginator #paginator [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons ></mat-paginator>
+    </div>
+    <div *ngIf="items">
+        <button class="ui inverted green button" (click)="toExcel()">Excel</button>
+        <button class="ui inverted orange button" [useExistingCss]="true" printSectionId="printdiv" ngxPrint>Print</button>
+      </div>
+    </div>
+    <div id="printdiv" [hidden]="true"> 
+        <app-print-item [items]="items"></app-print-item>
+    </div>

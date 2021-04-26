@@ -1,0 +1,106 @@
+<div style="background: white;padding: 25px;border-radius: 10px">
+<form  class="ui form" [formGroup]="searchForm" (submit)="search()" style="margin: 0 ; padding: 0" dir="rtl" >
+    <div class="fields">
+        <div class="six wide field">
+            <label>نوع مصرف</label>
+            <select class="ui fluid search dropdown" formControlName="expense_type" >
+              <option value="">نوع مصرف</option>
+              <option *ngFor="let v of expense_types" [value]="v">{{ v }} </option>
+              </select>
+        </div>
+        <div class="four wide field">
+            <label>پول دهنده</label>
+            <select class="ui fluid search dropdown" formControlName="given_by">
+              <option value="">پول دهنده</option>
+              <option *ngFor="let i of given_by_list" [value]="i.id">{{ i.name }}</option>
+            </select>
+          </div>       
+        <div class="five wide field">
+          <label >تاریخ</label>
+          <div class="two fields">
+            <div class="field">
+                <input type="number"  maxlength="4" placeholder="سال" formControlName="year">
+              </div>
+            <div class="field">
+              <select class="ui fluid search dropdown" formControlName="month">
+                <option value="">ماه</option>
+                <option value="1">January</option>
+                <option value="2">February</option>
+                <option value="3">March</option>
+                <option value="4">April</option>
+                <option value="5">May</option>
+                <option value="6">June</option>
+                <option value="7">July</option>
+                <option value="8">August</option>
+                <option value="9">September</option>
+                <option value="10">October</option>
+                <option value="11">November</option>
+                <option value="12">December</option>
+              </select>
+            </div>
+            
+          </div>
+        </div>
+        <div class="one wide field">
+            <label for="">جستجو</label>
+            <button class="ui search icon inverted green button" >
+                <i class="search icon"></i>
+              </button>
+        </div>  
+    </div>
+    <div class="fields" style="display: flex; align-items: flex-end;">
+        <div class="three wide field" *ngIf="isServiceTypeSelected()">
+          <label>نوع خدمت</label>
+          <select formControlName="service_type">
+            <option value="">نوع خدمت</option>
+            <option *ngFor="let v of income_types" [value]="v">{{ v }} </option>
+          </select>
+        </div>
+        <div class="three wide field" *ngIf="isServiceTypeSelected()">
+            <label>نمبر مسلسل</label>
+            <input type="number"   placeholder="نمبر مسلسل" formControlName="service_id">
+        </div>
+        <div class="six wide field" *ngIf="isSalaryTypeSelected()">
+            <label> کارمند</label>
+        <select formControlName="employee_id">
+            <option value="">کارمند</option>
+            <option *ngFor="let l of employee_list" [value]="l.employee_id">{{ l.firstname+' ' + l.lastname }} </option>
+        </select>
+        </div>
+    </div>
+  </form>
+  <hr>
+  <div *ngIf="isListEmpty "class="ui warning message" dir="rtl">
+    <div class="header">لیست خالی</div>
+    <p>متاسفانه هیچ دیتایی وجود نداشت</p>
+  </div>
+  <div *ngIf="error"class="ui error message" dir="rtl">
+    <div class="header">مشکل تخنیکی</div>
+    <p>لطفاً دوباره امتحان کنید</p>
+  </div>
+<div [hidden]="!dataSource">
+  <mat-table #table [dataSource]="dataSource" class="mat-elevation-z8" >
+    <ng-container [matColumnDef]="columnName" *ngFor="let columnName of displayedColumns">
+      <mat-header-cell *matHeaderCellDef> {{columnNames[columnName]}} </mat-header-cell>
+      <mat-cell *matCellDef="let element" >
+         <span *ngIf="columnName!=='id'">{{ (columnName==='given_date')?(element[columnName] | date) : (element[columnName])}}</span> 
+         <span *ngIf="columnName==='id'"><button class="ui blue button" type ="button" (click)="goToEditPage(element)"><i class="edit icon"></i>ویرایش</button></span>
+      </mat-cell>
+      <mat-footer-cell mat-footer-cell *matFooterCellDef>{{ (columnName==='amount')?(getTotal()+" : مجموعه"):'' }}</mat-footer-cell>
+    </ng-container>
+  
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    <mat-footer-row mat-footer-row *matFooterRowDef="displayedColumns" class="bold"></mat-footer-row>
+  </mat-table>
+  <!-- Angular 8 pagination -->
+<mat-paginator #paginator [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons ></mat-paginator>
+</div>
+<div *ngIf="items">
+  <button class="ui inverted green button" (click)="toExcel()">Excel</button>
+  <button class="ui inverted orange button" [useExistingCss]="true" printSectionId="printdiv" ngxPrint>Print</button>
+</div>
+</div>
+<div id="printdiv" [hidden]="true"> 
+  <app-print-item [items]="items"></app-print-item>
+</div>

@@ -1,0 +1,46 @@
+
+<form class="ui form" dir="rtl" [formGroup]="serviceForm" (ngSubmit)="ngOnAddOrUpdate()" >
+  <div class="ui large header center" style="text-align: center;"> {{editMode?'فورم آپدیت مصرف خدماتی':'فورم مصرف خدماتی جدید'}}</div>
+  <p></p><p></p>
+  <div class="two fields">
+      <div class="required field">
+        <label>نوع خدمت</label>
+        <select formControlName="service_type">
+          <option value="">نوع خدمت</option>
+          <option *ngFor="let v of income_types" [value]="v">{{ v }} </option>
+        </select>
+      </div>
+      <div class="required field">
+        <label>نمبر مسلسل</label>
+        <input type="number"  placeholder="نمبر مسلسل" formControlName="service_id">
+      </div>
+  </div>
+    <div class="required field">
+      <label>مقدار پول</label>
+      <input type="number"  placeholder="مقدار پول" formControlName="amount">
+    </div>
+    <div class=" field">
+      <label>ملاحظات</label>
+      <input type="text"  placeholder="ملاحظات" formControlName="description">
+    </div>
+    <div class="required field">
+      <label>تاریخ رسید</label>
+      <input type="date"  formControlName="date">
+    </div>
+    <div class="required field">
+      <label>پول دهنده</label>
+      <select formControlName="receiver">
+        <option value="">پول دهنده</option>
+        <option *ngFor="let k of receiver_list" [value]="k.id">{{ k.name }} </option>
+      </select>
+    </div>
+    <button class="positive ui button" type="submit" [disabled]="!serviceForm.valid">{{editMode?'آپدیت':'ذخیره'}}</button>
+  </form>
+  <div class="ui success message" *ngIf="inserted && showMessage" dir="rtl">
+    <div class="header">{{this.editMode?'آپدیت موفقانه':'درج موفقانه'}}</div>
+    <p>دیتا موفقانه به دیتابیس اضافه شد.</p>
+  </div>
+  <div class="ui negative message" *ngIf="!inserted && showMessage" dir="rtl">
+    <div class="header">{{this.editMode?'آپدیت نا موفقانه':'درج نا موفقانه'}}</div>
+    <p>متاسفانه دیتا در دیتابیس ذخیره نشد.</p>
+  </div>

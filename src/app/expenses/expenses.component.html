@@ -1,0 +1,10 @@
+<div style="background: white; padding: 25px;border-radius: 10px">
+<div class="ui fluid three item menu pointing" dir="rtl">
+    <a class="item" [routerLink]="['/expenses/','service']" [routerLinkActive]="['active','orange']">خدماتی</a>
+    <a class="item" [routerLink]="['/expenses/','salary']" [routerLinkActive]="['active','orange']">معاشات</a>
+    <a class="item" [routerLink]="['/expenses/','other']" [routerLinkActive]="['active','orange']">دیگر</a>
+</div>
+<div class="ui segment">
+    <router-outlet></router-outlet>
+</div>
+</div>

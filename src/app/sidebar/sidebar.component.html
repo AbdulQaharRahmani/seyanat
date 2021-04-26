@@ -1,0 +1,60 @@
+<div class="ui visible inverted right vertical sidebar thin menu" style="width: 200px;font-size: medium;padding: 0;" dir="rtl">
+  <div style="padding: 0;">
+    <button mat-fab class="ui icon button invert teal" [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu" style="margin: 0">
+      <i class="user big icon"></i>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="logout()">
+        <i class="sign-out icon"></i>
+        <span> Sign Out</span>
+      </button>
+      <button mat-menu-item [routerLink]="['/changepassword']">
+        <i class="key icon"></i>
+        <span> Change Password</span>
+      </button>
+    </mat-menu>
+  </div>
+  <div [hidden]="logNumber !== 0">
+  <a class="item" [routerLink]="['/incomes']" [routerLinkActive]="['active','invert','brown']">
+    عاید جدید
+  </a>
+  <a class="item" [routerLink]="['/incomelist']" [routerLinkActive]="['active','invert','brown']">   
+    لیست عواید
+  </a>
+  <a class="item" [routerLink]="['/expenses']" [routerLinkActive]="['active','invert','brown']">
+    مصرف جدید
+  </a>
+  <a class="item" [routerLink]="['/expenselist']" [routerLinkActive]="['active','invert','brown']">
+    لیست مصارف
+  </a>
+  <a class="item" [routerLink]="['/tax']" [routerLinkActive]="['active','invert','brown']">
+   محاسبه مالیه
+  </a>
+  <a class="item" [routerLink]="['/profit']" [routerLinkActive]="['active','invert','brown']">
+   لیست مفاد خدماتی
+  </a>
+</div>
+<div [hidden]="logNumber !== 1">
+  <a class="item" [routerLink]="['/officeexpense']" [routerLinkActive]="['active','invert','brown']">
+    مصارف اتاق
+   </a>
+   <a class="item" [routerLink]="['/officelist']" [routerLinkActive]="['active','invert','brown']">
+    لیست مصارف اتاق
+   </a>
+</div>
+  <!-- <div class="item">
+    <div class=" header">عواید</div>
+    <div class="menu">
+      <a class="ui  item" [routerLink]="['/incomes']" >عاید جدید</a>
+      <a class="ui  item" [routerLink]="['/incomelist']">لیست عواید </a>
+    </div>
+  </div>
+  <div class="item">
+    <div class=" header">مصارف</div>
+    <div class="menu">
+      <a class="ui  item" [routerLink]="['/expenses']" >مصرف جدید</a>
+      <a class="ui  item" [routerLink]="['/expenselist']" >لیست مصارف</a>
+    </div> 
+  </div> -->
+    
+  </div>

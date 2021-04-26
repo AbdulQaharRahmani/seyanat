@@ -1,0 +1,17 @@
+body {
+    background-color: #ECF0F1;
+  }
+  
+  .page-login {
+    margin-top: 25px;
+    margin-left: 200px;
+  }
+  #logo{
+    height: 100px;
+    width: 100%;
+  }
+  @media only screen and (min-width: 1000px) {
+    #logo{
+      height: 200px;
+    }
+  }

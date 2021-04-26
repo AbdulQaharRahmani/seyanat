@@ -1,0 +1,86 @@
+<div style="background: white;padding: 25px;border-radius: 10px">
+    <form  class="ui form" [formGroup]="profitSearch" (submit)="search()" style="margin: 0 ; padding: 0" dir="rtl">
+      <div class="fields">
+        
+        <div class="five wide field">
+            <label>نوع خدمت</label>
+            <select class="ui fluid search dropdown" formControlName="service_type">
+              <option value="">نوع خدمت</option>
+              <option *ngFor="let v of income_types" [value]="v">{{ v }} </option>
+              </select>
+        </div>
+        <div class="three wide field">
+          <label>نمبر مسلسل</label>
+          <input type="number"   placeholder="نمبر مسلسل" formControlName="service_id">
+        </div>           
+        <div class="one wide field">
+          <label for="">جستجو</label>
+          <button class="ui search icon inverted green button" >
+              <i class="search icon"></i>
+            </button>
+        </div>  
+        
+      </div>
+ </form>
+    <hr>
+    <div *ngIf="isListEmpty "class="ui warning message" dir="rtl">
+      <div class="header">لیست خالی</div>
+      <p>متاسفانه هیچ دیتایی وجود نداشت</p>
+    </div>
+    <div *ngIf="error"class="ui error message" dir="rtl">
+      <div class="header">مشکل تخنیکی</div>
+      <p>لطفاً دوباره امتحان کنید</p>
+    </div>
+    
+    <div [hidden]="isListEmpty">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" >
+      <!-- Amount Column -->
+      <ng-container matColumnDef="net_income">
+        <th mat-header-cell *matHeaderCellDef> عاید خالص </th>
+        <td mat-cell *matCellDef="let element"> {{element.net_income}} </td>
+        <td mat-footer-cell *matFooterCellDef class="bold"> {{getNetIncome()}} </td>
+      </ng-container>  
+      <!-- Amount Column -->
+      <ng-container matColumnDef="total_expense">
+        <th mat-header-cell *matHeaderCellDef> مجموع مصارف </th>
+        <td mat-cell *matCellDef="let element"> {{element.total_expense}} </td>
+        <td mat-footer-cell *matFooterCellDef class="bold">{{ getTotalExpense() }}</td>
+      </ng-container>
+    
+        <!-- Amount Column -->
+        <ng-container matColumnDef="total_income">
+          <th mat-header-cell *matHeaderCellDef> مجموع عواید </th>
+          <td mat-cell *matCellDef="let element"> {{element.total_income}} </td>
+          <td mat-footer-cell *matFooterCellDef class="bold"> {{getTotalIncome()}} </td>
+        </ng-container>
+      
+        <!-- Service Id Column -->
+        <ng-container matColumnDef="service_id">
+          <th mat-header-cell *matHeaderCellDef>نمبر مسلسل</th>
+          <td mat-cell *matCellDef="let element"> {{element.service_id}} </td>
+          <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+      
+        <!-- Service Type Column -->
+        <ng-container matColumnDef="service_type">
+          <th mat-header-cell *matHeaderCellDef> نوع خدمت</th>
+          <td mat-cell *matCellDef="let element"> {{element.service_type}} </td>
+          <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+        
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr mat-footer-row *matFooterRowDef="displayedColumns" ></tr>
+      </table>
+      <!-- Angular 8 pagination -->
+    <mat-paginator [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons ></mat-paginator> 
+    </div>
+    <div *ngIf="items">
+      <button class="ui inverted green button" (click)="toExcel()">Excel</button>
+      <button class="ui inverted orange button" [useExistingCss]="true" printSectionId="printdiv" ngxPrint>Print</button>
+    </div>
+</div>
+    <div id="printdiv" [hidden]="true"> 
+      <app-print-item [items]="items"></app-print-item>
+    </div>

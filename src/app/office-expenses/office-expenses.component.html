@@ -1,0 +1,35 @@
+<div style="background: white; padding: 25px;border-radius: 10px">
+<form class="ui form" dir="rtl" [formGroup]="expenseForm" (ngSubmit)="ngOnAddOrUpdate()" >
+    <div class="ui large header center" style="text-align: center;"> {{this.editMode?'فورم آپدیت مصرف':'فورم رسید مصرف جدید'}}</div>
+    <p></p><p></p>
+    
+      <div class="required field">
+        <label>نوع مصرف</label>
+        <select formControlName="expense_type">
+          <option value="">نوع مصرف</option>
+          <option *ngFor="let i of expense_types" [value]="i">{{ i }} </option>
+        </select>
+      </div>
+      <div class="field">
+        <label>ملاحضات</label>
+        <input type="text"  placeholder="ملاحضات" formControlName="expense_description">
+      </div>
+      <div class="required field">
+        <label>مقدار پول</label>
+        <input type="number"  placeholder="مقدار پول" formControlName="amount">
+      </div>
+      <div class="required field">
+        <label>تاریخ تحویل</label>
+        <input type="date"  formControlName="given_date">
+      </div>
+      <button class="positive ui button" type="submit" [disabled]="!expenseForm.valid">{{this.editMode?'آپدیت':'ذخیره'}}</button>
+    </form>
+    <div class="ui success message" *ngIf="inserted && showMessage" dir="rtl">
+        <div class="header">{{this.editMode?'آپدیت موفقانه':'درج موفقانه'}}</div>
+        <p>رسید مصرف موفقانه به دیتابیس اضافه شد.</p>
+      </div>
+      <div class="ui negative message" *ngIf="!inserted && showMessage" dir="rtl">
+        <div class="header">{{this.editMode?'آپدیت نا موفقانه':'درج نا موفقانه'}}</div>
+        <p>متاسفانه دیتا در دیتابیس ذخیره نشد.</p>
+      </div>
+  </div>

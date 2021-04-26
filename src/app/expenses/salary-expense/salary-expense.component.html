@@ -1,0 +1,37 @@
+
+  <form class="ui form" dir="rtl" [formGroup]="salaryForm" (ngSubmit)="ngOnAddOrUpdate()" >
+    <div class="ui large header center" style="text-align: center;"> فورم مصرف معاشات جدید</div>
+    <p></p><p></p>
+    
+    <div class="required field">
+      <label> کارمند</label>
+      <select formControlName="employee_id">
+        <option value="">کارمند</option>
+        <option *ngFor="let l of employee_list" [value]="l.employee_id">{{ l.firstname+' ' + l.lastname }} </option>
+      </select>
+    </div>
+      <div class="required field">
+        <label>مقدار پول</label>
+        <input type="number"  placeholder="مقدار پول" formControlName="amount">
+      </div>
+      <div class="required field">
+        <label>تاریخ تحویل</label>
+        <input type="date"  formControlName="given_date">
+      </div>
+      <div class="required field">
+        <label>پول دهنده</label>
+        <select formControlName="given_by">
+          <option value="">پول دهنده</option>
+          <option *ngFor="let k of given_by_list" [value]="k.id">{{ k.name }} </option>
+        </select>
+      </div>
+      <button class="positive ui button" type="submit" [disabled]="!salaryForm.valid">ذخیره</button>
+    </form>
+    <div class="ui success message" *ngIf="inserted && showMessage" dir="rtl">
+      <div class="header">{{this.editMode?'آپدیت موفقانه':'درج موفقانه'}}</div>
+      <p>رسید معاش موفقانه به دیتابیس اضافه شد.</p>
+    </div>
+    <div class="ui negative message" *ngIf="!inserted && showMessage" dir="rtl">
+      <div class="header">{{this.editMode?'آپدیت نا موفقانه':'درج نا موفقانه'}}</div>
+      <p>متاسفانه دیتا در دیتابیس ذخیره نشد.</p>
+    </div>
